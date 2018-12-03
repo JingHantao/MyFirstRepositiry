@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="../styles/bootstrap/favicon.ico">
+    <title>${sysc['potitle']}</title>
+    <link href="../styles/plugin/css/iconfont${sysc['release']!}.css?${sysc['version']}" rel="stylesheet"/>
+    <link href="../styles/plugin/login${sysc['release']!}.css?${sysc['version']}" rel="stylesheet">
+</head>
+<body>
+<div class="box">
+    <div class="logo">
+        <img src="../styles/plugin/img/login-logo.png"/>
+    </div>
+    <div class="i18n">
+        <select class="form-control">
+            <option value="cn" selected="">cn</option>
+            <option value="en">en</option>
+        </select>
+        <span class="form-control-feedback"><i class="fa fa-arrowdown"></i></span>
+    </div>
+    <div class="title" i18n="0">模具行业工业4.0解决方案提供商</div>
+    <div class="name">
+        EMan · <span i18n="1">监控数据录入</span>
+    </div>
+    <div class="entry">
+        <p class="zw" i18n="2">登录</p>
+        <div class="form">
+            <form id="login" method="post" action="../mc/234">
+                <div class="user">
+                    <input type="text" class="ipt" name="loginnum" value="${(bean.name)!''}">
+                </div>
+                <div class="pas">
+                    <input type="password" class="ipt" name="password">
+                </div>
+                <div class="rem">
+                    <label class="lab"> <input type="checkbox" class="checkbox" target="checkbox"
+                                               value="1" name="result"/> <label></label> <span i18n="3">记住帐号</span>
+                    </label>
+                </div>
+                <div class="sub">
+                    <a href="">
+                        <button type="submit" class="btn" i18n="4">登 录</button>
+                    </a>
+                </div>
+                <div class="err" style="text-align:center;">
+                    <span>${(bean.message)!''}</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer">Copyright © 2016 - EMan V1.0.0, All Rights Reserved</div>
+<script src="../styles/bootstrap/jquery${sysc['release']!}.js"></script>
+<script src="../styles/plugin/js/particleground${sysc['release']!}.js"></script>
+<script type="text/javascript">
+    var i18n = {
+        type: ['cn', 'en'],
+        en: ['Mold & Die Industry 4.0 Solution Provider',
+            'Monitor data entry ',
+            'SIGN IN',
+            'Remember account',
+            'Log in'
+        ],
+        cn: ['模具行业工业4.0解决方案提供商',
+            '监控数据录入',
+            '登录',
+            '记住帐号',
+            '登 录'
+        ]
+    };
+
+    var login = {
+        init: function () {
+            var $input = $('input[name="loginnum"]');
+            if ($input.val() != '')
+                $input = $('input[name="password"]');
+            $input.focus();
+            $('.i18n .form-control').on('change', function (e) {
+                login.setI18n($(this).val());
+            })
+
+            if (!!window.ActiveXObject || "ActiveXObject" in window) {
+                $('body').addClass('web-ie');
+            }
+            return this;
+        },
+        setI18n: function (type) {
+            $('[i18n]').each(function (idx) {
+                $(this).text(i18n[type][$(this).attr('i18n')]);
+            });
+        },
+        isIE: function () {
+            var ie = 0;
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.indexOf('msie') != -1)
+                ie = ua.match(/msie ([\d.]+)/)[1];
+            if (8.0 == ie) {
+                alert('本系统不支持IE8访问,请升级IE10或更高版本!');
+                $('div.main').remove();
+                return false;
+            }
+            return true;
+        }
+    }
+    $(document).ready(function () {
+        $('.particles').particleground({
+            dotColor: '#ddd',
+            lineColor: '#ddd'
+        });
+        var search = 'themeName=';
+        var returnvalue = "", offset, end, index;
+        if (document.cookie.length > 0) {
+            offset = document.cookie.indexOf(search);
+            if (offset != -1) {
+                offset += search.length;
+                end = document.cookie.indexOf(";", offset);
+                if (end == -1)
+                    end = document.cookie.length;
+                returnvalue = unescape(document.cookie.substring(offset, end));
+            }
+        }
+        returnvalue = returnvalue || 'theme1';
+        $('body').addClass(returnvalue);
+
+        if (login.isIE())
+            login.init();
+    });
+    //# sourceURL=core.schedulelogin.js
+</script>
+</body>
+</html>
